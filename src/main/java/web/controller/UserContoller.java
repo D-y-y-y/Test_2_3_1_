@@ -17,31 +17,31 @@ public class UserContoller {
         this.userService = userService;
     }
 
-    @GetMapping()   // этот метод показывает всех людей
-    public String index(Model model) {
-        model.addAttribute("users", userService.index());
-        return "user/index";
+    @GetMapping()
+    public String showAllUsers(Model model) {
+        model.addAttribute("users", userService.showAllUsers());
+        return "user/showAllUsers";
     }
 
-    @GetMapping("/{id}") // находит пользователя по id
+    @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.show(id));
         return "user/show";
     }
 
-    @GetMapping("/new")//возращает эйчтимл форму для создания нового человека
-    public String newUser(Model model) {
+    @GetMapping("/new")
+    public String getNewUserForm(Model model) {
         model.addAttribute("user", new User());
         return "user/new";
     }
 
-    @PostMapping//принимать на вход пост запрос и добавлять в бд нового человека
+    @PostMapping
     public String create(@ModelAttribute("user") User user) {
         userService.save(user);
         return "redirect:/users";
     }
 
-    @GetMapping("/{id}/edit")   //принимаем
+    @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", userService.show(id));
         return "user/edit";
